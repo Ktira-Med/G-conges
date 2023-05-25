@@ -1,0 +1,23 @@
+<!--*******************************************__ Menu Administrateur View __*************************************-->
+
+<ul class="nav nav-list">
+
+	<li>
+		<a href="#" class="dropdown-toggle">
+			<i class="menu-icon fa"><img src="<?=asset('assets/img/flip-flops.png');?>"></i>
+
+			<span class="menu-text"> Congés </span>
+			<b class="arrow fa fa-angle-down"></b>
+		</a>
+		<b class="arrow"></b>
+		<ul class="submenu" style="display: block;">
+
+			<li class= "active"<?php $urlArray=parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); $segment=explode('/',
+						$urlArray); if($segment[3]=="DemandeConge" ) { echo 'class="active"' ; }else {echo 'class=""' ;
+						}?>>
+				<a href="<?=constructUrl('DemandeConge');?>">
+					<i class="menu-icon fa fa-caret-right"></i> <i class="ace-icon fa fa-edit"></i>
+					Mes demandes de congé
+				</a>
+				<b class="arrow"></b>
+			</li>

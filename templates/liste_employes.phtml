@@ -1,0 +1,485 @@
+﻿<!--*******************************************__ Employee List view __*************************************-->
+
+<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+  <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
+    data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+</div>
+</div>
+<div class="main-content">
+  <div class="main-content-inner">
+    <div class="page-content">
+      <div class="page-header">
+        <h1><i class="ace-icon fa fa-users"></i>
+          RH
+          <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Liste des employés
+          </small>
+        </h1>
+        <hr>
+        <!-- /.span -->
+        <!-- /.page-header -->
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="space"></div>
+                    <div id="tableau">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <div class="table-header">
+                            Resultats des employés
+                          </div>
+                          <div>
+
+                            <table id="example1" class="table table-bordered table-hover">
+                              <thead>
+                                <tr>
+                                  <th >NOM</th>
+                                  <th >CNE</th>
+                                  <th >N° SECURITE SOCIALE</th>
+                                  <th >INTEGRE LE</th>
+                                  <th >DEPART LE</th>
+                                  <th ></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <?php foreach ($employes as $employe) :?>
+                                  <tr>
+                                  <td><?= $employe->getNom(); ?></td>
+                                  <td><?= $employe->getCNE(); ?></td>
+                                  <td><?= $employe->getCodeSS(); ?></td>
+                                  <td><?= $employe->getDateIntegration(); ?></td>
+                                <?php if ($employe->getPreavis() == 'oui') : ?>
+                                  <td><?= $employe->getDateDepart(); ?></td>
+                                <?php else : ?>
+                                  <td></td>
+                                <?php endif; ?>
+                                  <td class="center">
+                                <button name="Infos" id="infos_b_<?= $employe->getIdUser(); ?>" class="btn btn-xs btn-info infos_employe" data-target="#modal-wizard" data-toggle="modal" class="pink">
+                                      <i class="ace-icon fa fa-edit bigger-120"></i>
+                                    </button>
+                                    <button name="delete" class="btn btn-xs btn-danger delete_employe" id="delete_<?= $employe->getIdUser(); ?>">
+                                      <i class="ace-icon fa fa-trash bigger-120"></i>
+                                    </button>
+                                  </td>
+                                </tr>
+                              <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="pull-left">
+                      <a href="#modal-wizard" data-toggle="modal" class="pink">
+                        <button class="btn btn-sm btn-success add_employe">
+                          <i class="ace-icon fa fa-plus-circle"></i>Ajouter un employer    
+                        </button>
+                      </a>
+                      <div class="modal fade" id="modal-wizard" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <!-----------Modal label & Button close------------->
+                            <div class="modal-header" style="background-color: #438EB9; color:#FFFFFF;">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              <h4 class="modal-title entete" id="myModalLabel">Ajouter un employer</h4>
+                            </div>
+                            <!-----------Form ajout employe------------->
+                            <form id="form_validate">
+                              <div class="modal-body">
+                              <div class="alert alert-success" id="success">
+                                <button type="button" class="close" data-dismiss="alert">
+                                  <i class="ace-icon fa fa-times"></i>
+                                </button>
+                                <strong>
+                                  <i class="ace-icon fa fa-check"></i>
+                                  Bien Fait!
+                                </strong>
+                                les informations ont été bien enregistrées.
+                                <br />
+                              </div>
+                                <div class="form-group">
+                                  <input type="hidden" class="error" name="id_user" id="id_user">
+                                  <div class="form-group has-feedback">
+                                    <label for="nom">Nom Complet :</label>
+                                    <input type="text"
+                                      class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                      id="username" name="username">
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <label for="Sexe">Sexe :</label>
+                                    <select class="form-control ng-pristine ng-untouched ng-valid" id="Sexe" name="Sexe">
+
+                                      <option selected="selected" value hidden >Sélectionnez une valeur</option>
+                                      <option value="Mr">Mr</option>
+                                      <option value="Mrs">Mrs</option>
+
+                                    </select>
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <label for="email">Email :</label>
+                                    <input type="email"
+                                      class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                      name="Email" id="Email">
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <label for="pwd">Mot de passe :</label>
+                                    <input type="password"
+                                      class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                      name="M_Passe" id="M_Passe">
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <label for="gsm">GSM :</label>
+                                    <input type="text"
+                                      class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                      name="GSM" id="GSM">
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <label for="CodeSS">Code De Securite Sociale :</label>
+                                    <input type="text"
+                                      class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                      name="codeSS" id="codeSS">
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <label for="CNE">CNE :</label>
+                                    <input type="text"
+                                      class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                      name="cne" id="cne">
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <label for="Date_Integration">Date D'integration :</label>
+                                    <input type="text"
+                                      class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                      name="dateIntegration" id="dateIntegration">
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <input class="ace" type="checkbox" name="id-preavis-checkmod" onclick="preavis()"
+                                      id="id-preavis-checkmod" />
+                                    <span class="lbl"> Préavis</span>
+                                  </div>
+                                  <div class="form-group has-feedback" id="preavis_div" style="display: none;">
+                                    <label for="Date_Depart">Date De Depart :</label>
+                                    <input type="text"
+                                      class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                      name="dateDepart" id="dateDepart">
+                                  </div>
+                                  <div class="form-group has-feedback">
+                                    <label for="Profil">Profil :</label>
+                                    <select class="form-control ng-pristine ng-untouched ng-valid" id="profil"name="profil">
+                                      <option selected="selected" value hidden>Sélectionnez une valeur</option>
+                                      <?php foreach($profils as $profil): ?>
+                                        <option value="<?= $profil->getId(); ?>"><?= $profil->getRole(); ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
+                                  </div>
+                                  
+                                </div>
+                                <div class="modal-footer">
+
+                                  <button type="submit" class="btn btn-sm btn-success" id="addEmploye"> Valider<i
+                                      class="ace-icon fa fa-check"></i></button>
+                                  </br>
+                                  </br>
+                                </div>
+                              </div>
+                            </form>
+                            <!-- /.modal-content -->
+                          </div>
+                          <!-- /.modal-dialog -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="widget-box transparent">
+                        <div class="widget-body"></div>
+                      </div>
+                      <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                  </div><!-- /.row -->
+                </div><!-- /.page-content -->
+              </div>
+            </div><!-- /.main-content -->
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+              <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+          </div>
+          <script src="<?=asset('assets/ace-style/assets/js/jquery-2.1.4.min.js');?>"></script>
+          <script src="<?=asset('assets/js/bootstrap.min.js');?>"></script>
+          <script src="<?=asset('assets/js/jquery.dataTables.min.js');?>"></script>
+          <script src="<?=asset('assets/js/jquery.dataTables.bootstrap.min.js');?>"></script>
+          <script src="<?=asset('assets/js/dataTables.buttons.min.js');?>"></script>
+          <script src="<?=asset('assets/js/dataTables.select.min.js');?>"></script>
+          <script src="<?=asset('assets/js/buttons.flash.min.js');?>"></script>
+          <script src="<?=asset('assets/js/buttons.html5.min.js');?>"></script>
+          <script src="<?=asset('assets/js/buttons.print.min.js');?>"></script>
+          <script src="<?=asset('assets/js/buttons.colVis.min.js');?>"></script>
+          <!-- page specific plugin scripts -->
+          <!-- ace scripts -->
+          <script src="<?=asset('assets/js/ace-elements.min.js');?>"></script>
+          <script src="<?=asset('assets/js/ace.min.js');?>"></script>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+          <script src="<?=asset('assets/js/jquery.validate.min.js');?>"></script>
+          <!-- inline scripts related to this page -->
+          <script>
+            function preavis() {
+              if ((document.getElementById('id-preavis-checkmod').checked)) {
+                document.getElementById('preavis_div').style.display = "block";
+              }
+              else {
+                document.getElementById('preavis_div').style.display = "none";
+              }
+            }
+          </script>
+          
+          <script>
+            $(document).ready(function () {
+              $('#success').hide();
+              ///////////////// Affichage infos modal employe /////////////////
+              $(document).on("click", ".infos_employe", function () {
+                clean();
+                let id_employe = ($(this).attr('id')).replace("infos_b_", "");
+                $.ajax({
+                  url: "<?=constructUrl('GetEmployerById');?>",
+                  type: "POST",
+                  dataType: "json",
+                  data: { employe_id: id_employe },
+                  success: function (json) {
+
+                    $(".entete").text('Modifier un employé');
+                    $("#id_user").val(json[0]);
+                    $("#username").val(json[1]);
+                    $("#Sexe").val(json[2]);
+                    $("#Email").val(json[3]);
+                    $("#M_Passe").val(json[4]);
+                    $("#GSM").val(json[5]);
+                    $("#codeSS").val(json[8]);
+                    $("#cne").val(json[9]);
+                    $("#dateIntegration").val(json[10]);
+                    if (json[11] == 'oui') {
+                      $("#id-preavis-checkmod").prop('checked', true);
+                      $("#preavis_div").css('display', 'block');
+                    } else {
+                      $("#id-preavis-checkmod").prop('checked', false);
+                      $("#preavis_div").css('display', 'none');
+                    }
+                    $("#dateDepart").val(json[12]);
+                    $("#profil").val(json[13]);
+                  }
+                });
+              });
+
+
+             ///////////////// Delete employe /////////////////
+              
+              $(document).on("click", ".delete_employe", function () {
+                let id_employe = ($(this).attr('id')).replace("delete_", "");
+                console.log(id_employe);
+                 $.confirm({
+                    title: '',
+                    useBootstrap: false,
+                    content: '<div class="jconfirm-box jconfirm-hilight-shake jconfirm-type-blue jconfirm-type-animated" role="dialog" aria-labelledby="jconfirm-box28409" tabindex="-1" style="transition-duration: 0.4s; transition-timing-function: cubic-bezier(0.36, 0.55, 0.19, 1); transition-property: all, margin;"><div class="jconfirm-title-c"><span class="jconfirm-icon-c"><i class="fa fa-smile-o"></i></span><span class="jconfirm-title">Bonjour!!</span></div><div class="jconfirm-content-pane no-scroll" style="transition-duration: 0.4s; transition-timing-function: cubic-bezier(0.36, 0.55, 0.19, 1); height: 21px; max-height: 409px;"><div class="jconfirm-content" id="jconfirm-box28409"><div>Voulez-vous vraiement supprimer cette ligne?</div></div></div><div class="jconfirm-clear"></div></div>',
+                    buttons: {
+                      Oui: function () {
+                        $.ajax({
+                          url: '<?=constructUrl('DeleteEmploye');?>',
+                          type: "POST",
+                          dataType: "json",
+                          data: { employe_id: id_employe },
+
+                          success: function () { window.location = ""; }
+                        });
+                        window.location = "";
+                      },
+                      Annuler: function () {
+                        window.location = "";
+                      }
+                    }
+                  });
+              });
+
+              ///////////////// Add and Modify employe /////////////////
+
+              $(document).on("click", ".add_employe", function () {
+              clean();
+              });
+
+              $('#modal-wizard').on("hidden.bs.modal", function(){
+                  location.reload();
+              });
+     
+              function clean()
+              {
+                $('.form-group').removeClass('has-error');
+                $('.help-block').hide();
+                $(".entete").text('Ajouter un employé');
+                $("#id_user").val("");
+                $("#username").val("");
+                $("#Sexe").val("");
+                $("#Email").val("");
+                $("#M_Passe").val("");
+                $("#GSM").val("");
+                $("#codeSS").val("");
+                $("#cne").val("");
+                $("#dateIntegration").val("");
+                $("#id-preavis-checkmod").prop('checked', false);
+                $("#preavis_div").css('display', 'none');
+                $("#profil").val("");
+              }
+              
+              $('#form_validate').validate({
+             
+                  errorElement: 'div',
+                  errorClass: 'help-block',
+                  focusInvalid: false,
+                  ignore: "",
+                  rules: {
+                    username: {required: true},
+                    Sexe: {required: true},
+                    GSM: {required: true},
+                    Email: {required: true, email: true},
+                    M_Passe: {required: true, minlength: 8},
+                    codeSS: {required: true},
+                    cne: {required: true},
+                    dateIntegration: {required: true},
+                    profil: {required: true},
+                  },
+
+                  messages: {
+                    username: {required: "Veuillez saisir un nom"},
+                    Sexe: {required: "Veuillez sélectionner le sexe"},
+                    GSM: {required: "Veuillez saisir un numéro de téléphone"},
+                    Email: {
+                      required: "Veuillez saisir un email valide",
+                      email: "Veuillez saisir un email valide"
+                    },
+                    M_Passe: {
+                      required: "Veuillez entrer un mot de passe",
+                      minlength: "Veuillez spécifier un mot de passe qui dépasse 8 caractères"
+                    },
+                    codeSS: {
+                      required: "Veuillez entrer le Code De Securite Sociale",
+                      minlength: "Veuillez spécifier un Code De Securite Sociale"
+                    },
+                    cne: {
+                      required: "Veuillez entrer un CNE",
+                      minlength: "Veuillez spécifier un CNE"
+                    },
+                    dateIntegration: {
+                      required: "Veuillez entrer une date d'integration",
+                      minlength: "Veuillez spécifier une date d'integration"
+                    },
+                    profil: {required: "Veuillez sélectionner un profil"},
+                  },
+
+             highlight: function (e) {
+               $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+             },
+
+             success: function (e) {
+               $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+               $(e).remove();
+             },
+
+             errorPlacement: function (error, element) {
+               if (element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                 let controls = element.closest('div[class*="col-"]');
+                 if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                 else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+               }
+
+               else if (element.is('.select2')) {
+                 error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+               }
+
+               else if (element.is('.chosen-select')) {
+                 error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+               }
+
+               else error.insertAfter(element.parent());
+             },
+
+             submitHandler: function (form) {
+              const idUser = $("#id_user").val();
+              const nom = $("#username").val();
+              const sexe = $("#Sexe").val();
+              const email = $("#Email").val();
+              const M_Passe = $("#M_Passe").val();
+              const gsm = $("#GSM").val();
+              const codeSS = $("#codeSS").val();
+              const cne = $("#cne").val();
+              const dateIntegration = $("#dateIntegration").val();
+              const dateDepart = $("#dateDepart").val();
+              const preavis = $("#id-preavis-checkmod").prop("checked") ? 'oui' : 'non';
+              const profil = $("#profil").val();
+             
+              if(idUser != ''){
+                $.ajax({
+                
+                  url: '<?=constructUrl('MAJEmploye');?>',
+                  type: 'POST',
+                  data: {
+                    id_user: idUser, 
+                    nom: nom, 
+                    gsm: gsm, 
+                    email:email, 
+                    cne: cne, 
+                    codeSS: codeSS, 
+                    M_Passe: M_Passe, 
+                    dateDepart: dateDepart, 
+                    dateIntegration: dateIntegration, 
+                    sexe: sexe, 
+                    preavis: preavis,
+                    profil: profil
+                  },
+                  dataType: 'json',
+                  success: function(response) {
+                      $('#success').show();
+                      setTimeout(function() {
+                          $('#success').hide();
+                      }, 3000);
+                      clean();
+                  }
+              });
+              }else{
+                $.ajax({
+                  url: '<?=constructUrl('AddEmploye');?>',
+                  type: 'POST',
+                  data: {
+                    nom: nom,
+                    gsm: gsm,
+                    email:email,
+                    cne: cne,
+                    codeSS: codeSS,
+                    M_Passe: M_Passe,
+                    dateDepart: dateDepart,
+                    dateIntegration: dateIntegration,
+                    sexe: sexe,
+                    preavis: preavis,
+                    profil: profil
+                  },
+                  dataType: 'json',
+                  success: function(response) {
+                      $('#success').show();
+                      setTimeout(function() {
+                          $('#success').hide();
+                      }, 3000);
+                      clean();
+                  }
+                })
+              }
+            },
+           });
+          });
+          </script>
+         
+          </body>
+
+          </html>

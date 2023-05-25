@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--*******************************************__ Login View __*************************************-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="<?=asset('assets/css/Favicon_GC.png');?>">
+   <title>Gestion des conges</title>
+  <!------------------------ Tell the browser to be responsive to screen width ------------------------->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!----------------------------------------- Bootstrap 3.3.7 ------------------------------------------>
+  <link rel="stylesheet" href="<?=asset('assets/css/bower_components/bootstrap/dist/css/bootstrap.min.css');?>">
+  <!------------------------------------------- Font Awesome ------------------------------------------->
+  <link rel="stylesheet" href="<?=asset('assets/css/bower_components/font-awesome/css/font-awesome.min.css');?>">
+  <!--------------------------------------------- Ionicons --------------------------------------------->
+  <link rel="stylesheet" href="<?=asset('assets/css/bower_components/Ionicons/css/ionicons.min.css');?>">
+  <!-------------------------------------------- Theme style ------------------------------------------->
+  <link rel="stylesheet" href="<?=asset('dist/css/AdminLTE.min.css');?>">
+  <!-- -------------------------------------------- iCheck --------------------------------------------
+  <link rel="stylesheet" href="<?=asset('plugins/iCheck/square/blue.css');?>"> -->
+  <link rel="stylesheet" href="<?=asset('assets/css/mystyle.css');?>">
+  <!------------------------------------------- Google Font -------------------------------------------->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+
+<body>
+  <br /><br /><br /><br /><br /><br /> <br />
+  <div class="login-box">
+    <div class="login-box-body">
+        <?php if (isset($_SESSION['flashbag'])) : ?>
+                <p><?= $_SESSION['flashbag']; ?></p>
+            <?php unset($_SESSION['flashbag']);
+         endif; ?>
+      <form action="<?=constructUrl('checkCredentials');?>" method="POST" id="login_form">
+        <div class="form-group has-feedback">
+          <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+          <input type="password" class="form-control" placeholder="Mot de passe" name="password" id="password">
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+          <div class="checkbox icheck">
+              <input type="submit" class="red-log-sub" value="Se connecter" id="log" />
+          </div>
+      </form>
+
+      <div class="col-xs-8">
+        <a href="<?=constructUrl('forget'); ?>" id="mauve">Mot de passe oublié?</a><br />
+        <a href="<?=constructUrl('register'); ?>" class="text-center" id="vert">Créer un compte</a><br /><br />
+      </div>
+    </div>
+  </div>
+
+
+  <!------------------------------------------- jQuery 3 ------------------------------------------>
+<script src="<?=asset('assets/css/bower_components/jquery/dist/jquery.min.js');?>"></script>
+<!---------------------------------------- Bootstrap 3.3.7 ---------------------------------------->
+<script src="<?=asset('assets/css/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+<!-------------------------------------------- iCheck --------------------------------------------->
+<!-- <script src="<?=asset('assets/css/plugins/iCheck/icheck.min.js');?>"></script> -->
+<script src="<?=asset('assets/js/jquery.validate.min.js');?>"></script>
+
+  
+  <script>
+    $(document).ready(function () {
+
+      $('#login_form').validate({
+        errorElement: 'div',
+        errorClass: 'help-block',
+        focusInvalid: false,
+        ignore: "",
+
+        rules: {
+          email: {
+            required: true,
+            email: true
+          },
+          password: {
+            required: true,
+            minlength: 8,
+          }
+        },
+
+        messages: {
+          email: {
+            required: "Veuillez saisir un email valide",
+            email: "Veuillez saisir un email valide"
+          },
+          password: {
+            required: "Veuillez entrer votre mot de passe"
+          }
+        },
+
+        highlight: function (e) {
+          $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+        },
+
+        success: function (e) {
+          $(e).closest('.form-group').removeClass('has-error');
+          $(e).remove();
+          
+        },
+
+        submitHandler: function (form) {
+          form.submit();
+        },
+        invalidHandler: function (form) {
+        }
+      });
+
+    });
+  </script>
+</body>
+
+</html>

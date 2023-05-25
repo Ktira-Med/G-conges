@@ -1,0 +1,413 @@
+<!--*******************************************__List of leave requests view__ *************************************-->
+
+<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+  <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
+    data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+</div>
+</div>
+
+<div class="main-content">
+  <div class="main-content-inner">
+    <!-- <input type="hidden" id="session_user" value=""> -->
+    <div class="page-content">
+
+      <div class="page-header">
+        <h1>
+          <i class="ace-icon fa fa-edit"></i> Congés
+          <small>
+            <i class="ace-icon fa fa-angle-double-right"></i> Mes demandes
+          </small>
+        </h1>
+        <hr>
+        <!-- /.span -->
+        <!-- /.page-header -->
+
+        <div class="pull-right">
+          <span
+            style="color: white;background-color: #00cc66 ;padding: 7px 10px 7px 10px;font-size: 12px; border-radius: 20px;">Les demandes validées</span>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-sm-12">
+
+            <div id="tableau">
+              <div class="row">
+                <div class="alert alert-info" style="display: none;">
+                  <button type="button" class="close" data-dismiss="alert">
+                    <i class="ace-icon fa fa-times"></i>
+                  </button>
+                  
+                </div>
+                <div class="col-xs-12">
+
+                  <div class="clearfix">
+                    <div class="pull-right tableTools-container"></div>
+                  </div>
+                  <div class="table-header">
+                    Resultats des demandes de congés
+                  </div>
+
+                  <!-- div.table-responsive -->
+
+                  <!-- div.dataTables_borderWrap -->
+                  <div>
+
+                    <table id="example1" class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+
+                          <th >N° Demande</th>
+                          <?php if($_SESSION['role']=='Administrateur') echo '<th >Nom</th>';?>
+
+                          <th >Type</th>
+                          <th >Date Début</th>
+                          <th >Date Fin</th>
+                          <th >Commentaire</th>
+                          <th ></th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                      <?php foreach ($demandes as $demande) :?>
+                        <?= '<tr style="background-color:' . ($demande->getValide() == 'oui' ? '#00cc66' : '') . '; color:' . ($demande->getValide() == 'oui' ? '#ffffff' : '') . '">';?>
+                          
+                          <td><?= $demande->getId(); ?></td>
+                          <?php if($_SESSION['role']=='Administrateur') echo '<td>'.$demande->getNom().'</td>';?>
+                          <td><?= $demande->getLabelType(); ?></td>
+                          <td><?= $demande->getDateDebut(); ?></td>
+                          <td><?= $demande->getDateFin(); ?></td>
+                          <td><?= $demande->getComment(); ?></td>
+                          <td class="center">
+                        <?php if ($demande->getValide() != 'oui')
+                        { ?>
+                            <button name="Infos" id="infos_b_<?= $demande->getId(); ?>" class="btn btn-xs btn-info infos_demande" data-target="#demande_modal" data-toggle="modal" class="pink">
+                              <i class="ace-icon fa fa-edit bigger-120"></i>
+                            </button>
+                            <button name="delete" class="btn btn-xs btn-danger demande delete_demande" id="delete_<?= $demande->getId(); ?>">
+                              <i class="ace-icon fa fa-trash bigger-120"></i>
+                            </button>
+                        <?php } ?>
+                          </td>
+                        </tr>
+                        <?php endforeach; ?>
+                      </tbody>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pull-left">
+              <a href="#demande_modal" data-toggle="modal">
+                <button type="button" class="btn btn-sm btn-success add_demande">
+                  <i class="ace-icon fa fa-plus-circle"></i> Nouvelle demande
+                </button>
+              </a>
+              <div class="modal fade" id="demande_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <!-----------Modal label & Button close------------->
+                    <div class="modal-header" style="background-color: #438EB9; color:#FFFFFF;">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                          aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Demande de congé</h4>
+                    </div>
+                    <!-----------Form ajout Demande------------->
+                    <form id="test">
+                      <div class="modal-body">
+                      <div class="alert alert-success" id="success">
+                            <button type="button" class="close" data-dismiss="alert">
+                              <i class="ace-icon fa fa-times"></i>
+                            </button>
+                            <strong>
+                              <i class="ace-icon fa fa-check"></i>
+                              Bien Fait!
+                            </strong>
+                            la demande à été bien enregistré.
+                            <br />
+                          </div>
+                        <div class="form-group">
+                        <input type="block" name="id_connecte" id="id_connecte" value="<?=$_SESSION['id_user']?>">
+                        <!-- <input type="block" name="identifiant" id="identifiant"value="<?/*=$_SESSION['nom']*/?>">
+                        <input type="block" name="demande" id="demande"> -->
+
+                        <div class="form-group has-feedback">
+                          <label id="labdebut" for="debut">Date Début: </label>
+                          <input class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength" type="date" name="debutmod" id="debutmod" required>
+                        </div>
+                        <div class="form-group has-feedback">
+                          <label id="labdebut" for="debut">Date Fin: </label>
+                          <input class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength" type="date" name="finmod" id="finmod" required>
+                        </div>
+                        <div class="form-group has-feedback">
+                          <label id="labtype" for="type">Type de congé: </label>
+                          <select id="typeconge" name="typeconge" class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength" required>
+                            <option value hidden>Sélectionner un type</option>
+                            <?php foreach($types as $type): ?>
+                                  <option value="<?= $type->getId(); ?>"><?= $type->getLabelType(); ?></option>
+                            <?php endforeach; ?>
+                          </select>
+                        </div>
+                        <div class="form-group has-feedback">
+                          <label id="labcomm" for="comm">Commentaire: </label>
+                          <textarea id="commentaire" name="commentaire" class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"style="height: 100px;" required></textarea>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-sm btn-success" id="valider_dmcong">
+                          <i class="ace-icon fa fa-check"></i> Valider 
+                        </button>
+                        </br>
+                      </div>
+                  </div>
+                  </form>
+                  <!-- /.modal-content -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="widget-box transparent">
+
+
+            <div class="widget-body">
+
+            </div>
+          </div>
+
+          <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.page-content -->
+  </div>
+</div><!-- /.main-content -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+  <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+
+<script src="<?=asset('assets/js/bootstrap.min.js');?>"></script>
+
+<!-- page specific plugin scripts -->
+<script src="<?=asset('assets/js/jquery.dataTables.min.js');?>"></script>
+<script src="<?=asset('assets/js/jquery.dataTables.bootstrap.min.js');?>"></script>
+<script src="<?=asset('assets/js/dataTables.buttons.min.js');?>"></script>
+<script src="<?=asset('assets/js/buttons.flash.min.js');?>"></script>
+<script src="<?=asset('assets/js/buttons.html5.min.js');?>"></script>
+<script src="<?=asset('assets/js/buttons.print.min.js');?>"></script>
+<script src="<?=asset('assets/js/buttons.colVis.min.js');?>"></script>
+<script src="<?=asset('assets/js/dataTables.select.min.js');?>"></script>
+<!-- ace scripts -->
+<script src="<?=asset('assets/js/ace-elements.min.js');?>"></script>
+<script src="<?=asset('assets/js/ace.min.js');?>"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+<!-- inline scripts related to this page -->
+<script src="<?=asset('assets/js/wizard.min.js');?>"></script>
+<script src="<?=asset('assets/js/jquery.validate.min.js');?>"></script>
+<script src="<?=asset('assets/js/jquery-additional-methods.min.js');?>"></script>
+<script src="<?=asset('assets/js/bootbox.js');?>"></script>
+<script src="<?=asset('assets/js/jquery.maskedinput.min.js');?>"></script>
+<script src="<?=asset('assets/js/select2.min.js');?>"></script>
+<script src="<?=asset('assets/js/jquery.validate.min.js');?>"></script>
+
+
+<script>
+$(document).ready(function () {
+              $('#success').hide();
+              ///////////////// Affichage infos modal sur modifier demande /////////////////
+              $(document).on("click", ".infos_demande", function () {
+                clean();
+                let id_demande = ($(this).attr('id')).replace("infos_b_", "");
+                $.ajax({
+                  url: "<?=constructUrl('GetDemandeById');?>",
+                  type: "POST",
+                  dataType: "json",
+                  data: { demande_id: id_demande },
+                  
+                  success: function (json) {
+
+                    $(".entete").text('Modifier une demande');
+                    $("#id_connecte").val(json[0]);
+                    $("#debutmod").val(json[1]);
+                    $("#finmod").val(json[2]);
+                    $("#typeconge").val(json[3]);
+                    $("#commentaire").val(json[4]);
+                  }
+                });
+              });
+
+              ///////////////// Delete Demande /////////////////
+              
+              $(document).on("click", ".delete_demande", function () {
+                let id_demande = ($(this).attr('id')).replace("delete_", "");
+                 $.confirm({
+                    title: '',
+                    useBootstrap: false,
+                    content: '<div class="jconfirm-box jconfirm-hilight-shake jconfirm-type-blue jconfirm-type-animated" role="dialog" aria-labelledby="jconfirm-box28409" tabindex="-1" style="transition-duration: 0.4s; transition-timing-function: cubic-bezier(0.36, 0.55, 0.19, 1); transition-property: all, margin;"><div class="jconfirm-title-c"><span class="jconfirm-icon-c"><i class="fa fa-smile-o"></i></span><span class="jconfirm-title">Bonjour!!</span></div><div class="jconfirm-content-pane no-scroll" style="transition-duration: 0.4s; transition-timing-function: cubic-bezier(0.36, 0.55, 0.19, 1); height: 21px; max-height: 409px;"><div class="jconfirm-content" id="jconfirm-box28409"><div>Voulez-vous vraiement supprimer cette demande?</div></div></div><div class="jconfirm-clear"></div></div>',
+                    buttons: {
+                      Oui: function () {
+                        $.ajax({
+                          url: '<?=constructUrl('DeleteDemande');?>',
+                          type: "POST",
+                          dataType: "json",
+                          data: { demande_id: id_demande },
+
+                          success: function () { window.location = ""; }
+                        });
+                        window.location = "";
+                      },
+                      Annuler: function () {
+                        window.location = "";
+                      }
+                    }
+                  });
+              });
+
+              ///////////////// Add and Modify Demande /////////////////
+
+              $(document).on("click", ".add_demande", function () {
+              clean();
+              });
+
+              $('#demande_modal').on("hidden.bs.modal", function(){
+                  location.reload();
+              });
+     
+              function clean()
+              {
+                $('.form-group').removeClass('has-error');
+                $('.help-block').hide();
+                $(".entete").text('Ajouter une demande');
+                $("#id_connecte").val("");
+                $("#debutmod").val("");
+                $("#finmod").val("");
+                $("#typeconge").val("");
+                $("#commentaire").val("");
+              }
+
+              $('#test').validate({
+              
+                errorElement: 'div',
+                errorClass: 'help-block',
+                focusInvalid: false,
+                ignore: "",
+                rules: {
+                  debutmod: {required: true},
+                  finmod: {required: true},
+                  typeconge: {required: true},
+                  commentaire: {required: true}
+                },
+
+                messages: {
+                  debutmod: {required: 'Veuillez insérer une date début '},
+                  finmod: {required: 'Veuillez insérer une date fin '},
+                  typeconge: {required: 'Veuillez insérer un type de congé '},
+                  commentaire: {required: 'Veuillez insérer un commentaire '}
+                },
+
+                  highlight: function (e) {
+                    $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                  },
+
+                  success: function (e) {
+                    $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                    $(e).remove();
+                  },
+
+                  errorPlacement: function (error, element) {
+                    if (element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                      let controls = element.closest('div[class*="col-"]');
+                      if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                      else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                    }
+
+                    else if (element.is('.select2')) {
+                      error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+                    }
+
+                    else if (element.is('.chosen-select')) {
+                      error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+                    }
+
+                    else error.insertAfter(element.parent());
+                  },
+
+                submitHandler: function (form) {
+                  const idUser = $("#id_connecte").val();
+                  const val_date_debut = $("#debutmod").val();
+                  const val_date_fin = $("#finmod").val();
+                  const debut=new Date(val_date_debut);
+                  const fin=new Date(val_date_fin);
+                  const val_type_conge = $("#typeconge").val();
+                  const val_commentaire = $("#commentaire").val(); 
+                  if(debut.getDay() == 0 || debut.getDay() == 6 || fin.getDay() == 0 || fin.getDay() == 6) 
+                  {
+                    $.alert("Veuillez saisir des dates hors Samedi/Dimanche");
+                  }
+                  else
+                  {
+                  if(fin <= debut)
+                  {
+                    $.alert("La date fin doit être supérieure à la date début")
+                  }
+                  else
+                  {
+
+                  if(idUser != ''){
+
+                    $.ajax({
+                      
+                      url: '<?=constructUrl('UpdateDemande');?>',
+                      type: 'POST',
+                      data: {
+                      id_connecte: idUser,
+                      debutmod: val_date_debut, 
+                      finmod: val_date_fin, 
+                      typeconge: val_type_conge, 
+                      commentaire: val_commentaire
+                      },
+                      dataType: 'json',
+                      success: function(response) {
+                          $('#success').show();
+                          setTimeout(function() {
+                              $('#success').hide();
+                          }, 3000);
+                      }
+                    });
+                    }
+                    else
+                    {
+
+                    $.ajax({
+                      
+                        url: '<?=constructUrl('AddDemande');?>',
+                        type: 'POST',
+                        data: {
+                        debutmod: val_date_debut, 
+                        finmod: val_date_fin, 
+                        typeconge: val_type_conge, 
+                        commentaire: val_commentaire
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            $('#success').show();
+                            setTimeout(function() {
+                                $('#success').hide();
+                            }, 3000);
+                        }
+                      });
+                  }
+                  }  
+                  }
+                }
+              });
+            });
+</script>
+</body>
+
+</html>

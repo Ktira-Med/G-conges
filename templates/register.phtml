@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--*******************************************__ Register View __*************************************-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="<?=asset('assets/css/Favicon_GC.png');?>">
+  <title>Gestion des conges</title>
+  <!------------------------- Tell the browser to be responsive to screen width ------------------------->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!------------------------------------------ Bootstrap 3.3.7 ------------------------------------------>
+  <link rel="stylesheet" href="<?=asset('assets/css/bower_components/bootstrap/dist/css/bootstrap.min.css');?>">
+  <!-------------------------------------------- Font Awesome ------------------------------------------->
+  <link rel="stylesheet" href="<?=asset('assets/css/bower_components/font-awesome/css/font-awesome.min.css');?>">
+   <!-------------------------------------------- Google Font ------------------------------------------->
+  <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!---------------------------------------------- Ionicons --------------------------------------------->
+  <link rel="stylesheet" href="<?=asset('assets/css/bower_components/Ionicons/css/ionicons.min.css');?>">
+  <!-------------------------------------------- Theme style -------------------------------------------->
+  <link rel="stylesheet" href="<?=asset('dist/css/AdminLTE.min.css');?>">
+  <!----------------------------------------------- iCheck ---------------------------------------------->
+  <link rel="stylesheet" href="<?=asset('plugins/iCheck/square/blue.css');?>">
+  <link rel="stylesheet" href="<?=asset('assets/css/mystyle.css');?>">
+</head>
+
+<body class="body">
+
+  <div class="login-box">
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+    <?php if (isset($_SESSION['flashbag'])) : ?>
+                <p class="message success"><?= $_SESSION['flashbag']; ?></p>
+            <?php unset($_SESSION['flashbag']);
+         endif; ?>
+
+      <form action="<?=constructUrl('addacount');?>" method="post" id="register_form">
+        <div class="form-group has-feedback">
+          <input class="form-control" placeholder="Votre nom complet" name="nom" id="nom" id="nom">
+        </div>
+
+        <div class="form-group has-feedback">
+          <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1"
+            aria-hidden="true" name="sexe" id="sexe">
+            <option selected="selected" value hidden>Sélectionnez une valeur</option>
+            <option>Mr</option>
+            <option>Mrs</option>
+          </select>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input class="form-control" placeholder="Gsm" name="gsm" id="gsm">
+          <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="password" class="form-control" placeholder="Mot de passe" name="password" id="password">
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="password" class="form-control" placeholder="Confirmer mot de passe" name="password1" id="password1">
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+
+        <div class="row">
+          <center><input type="submit" class="red-forgot-sub" value="Valider" /></center>
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?=constructUrl('login'); ?>" id="green">J'ai déjà un Compte</a>
+        </div>
+      </form>
+      <br /><br />
+    </div>
+  </div>
+
+<!-------------------------------------------- jQuery 3 -------------------------------------------->
+<script src="<?=asset('assets/css/bower_components/jquery/dist/jquery.min.js');?>"></script>
+<!----------------------------------------- Bootstrap 3.3.7 ----------------------------------------->
+<script src="<?=asset('assets/css/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+<!--------------------------------------------- iCheck ---------------------------------------------->
+<script src="<?=asset('assets/css/plugins/iCheck/icheck.min.js');?>"></script>
+<script src="<?=asset('assets/js/jquery.validate.min.js');?>"></script>
+ 
+<script>
+          $('#register_form').validate({
+          errorElement: 'div',
+          errorClass: 'help-block',
+          focusInvalid: false,
+          ignore: "",
+          rules: {
+            nom: {required: true},
+            sexe: {required: true},
+            gsm: {required: true},
+            email: {
+              required: true,
+              email:true
+            },
+            password: {
+              required: true,
+              minlength: 8
+            },
+            password1: {
+              required: true,
+              minlength: 8,
+              equalTo: "#password"
+            },
+          },
+ 
+          messages: {
+              nom: {required: "Veuillez saisir votre nom"},
+            sexe: {required: "Veuillez saisir votre sexe"},
+            gsm: {required: "Veuillez saisir votre numéro de téléphone"},
+            email: {
+               required: "Veuillez saisir un email valide",
+              email: "Veuillez saisir un email valide"
+            },
+            password: {
+              required: "Veuillez entrer votre mot de passe",
+              minlength: "Veuillez spécifier un mot de passe qui dépasse 5 caractères"
+            },
+            password1: {
+              required: "Veuillez entrer votre mot de passe",
+              minlength: "Veuillez spécifier un mot de passe qui dépasse 5 caractères",
+              equalTo: "Les deux mots de passes doivent êtres identiques"
+            }
+          },
+ 
+          highlight: function (e) {
+            $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+          },
+ 
+          success: function (e) {
+            $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+            $(e).remove();
+          },
+ 
+          errorPlacement: function (error, element) {
+            if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+              var controls = element.closest('div[class*="col-"]');
+              if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+              else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+            }else if(element.is('.select2')) {
+              error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+            }else if(element.is('.chosen-select')) {
+              error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+            }else error.insertAfter(element.parent());
+          },
+ 
+          submitHandler: function (form) {
+            form.submit();
+          },
+
+          invalidHandler: function (form) {
+          }
+        });
+  </script>
+
+</body>
+
+</html>

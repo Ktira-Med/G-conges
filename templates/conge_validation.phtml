@@ -1,0 +1,197 @@
+<!--******************************************* __Leave validation view__ *************************************-->
+
+<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+  <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
+    data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+</div>
+</div>
+<div class="main-content">
+  <div class="main-content-inner">
+    <div class="page-content">
+      <div class="page-header">
+        <h1>
+          <i class="ace-icon fa fa-check-square-o"></i> Congés
+          <small>
+            <i class="ace-icon fa fa-angle-double-right"></i> Validation des demandes
+          </small>
+        </h1>
+        <hr>
+        <!-- /.span -->
+        <!-- /.page-header -->
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="space"></div>
+            <div id="tableau">
+              <div class="row">
+                <div class="alert alert-info" style="display: none;">
+                  <button type="button" class="close" data-dismiss="alert">
+                    <i class="ace-icon fa fa-times"></i>
+                  </button>
+                  <strong>Heads up!</strong> Traitement Bien Effectué
+                  <br>
+                </div>
+                <div class="col-xs-12">
+                  <div class="clearfix">
+                    <div class="pull-right tableTools-container"></div>
+                  </div>
+                  <div class="table-header"> Resultats des demandes de congés
+                  </div>
+
+                  <!-- div.table-responsive -->
+
+                  <!-- div.dataTables_borderWrap -->
+                  <div>
+                    <table id="example1" class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th class="hidden"></th>
+                          <th>Nom</th>
+                          <th>Type de congé</th>
+                          <th>Date Début</th>
+                          <th>Date Fin</th>
+                          <th>Validation</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <?php foreach ($demandes as $demande) :?>
+                        <?= '<tr style="background-color:' . ($demande->getValide() == 'oui' ? '#228B22' : '') . '; color:' . ($demande->getValide() == 'oui' ? '#ffffff' : '') . '">';?>
+
+                        <td class="hidden">
+                          <?= $demande->getId(); ?>
+                        </td>
+                        <td>
+                          <?= $demande->getNom(); ?>
+                        </td>
+                        <td>
+                          <?= $demande->getLabelType(); ?>
+                        </td>
+                        <td>
+                          <?= $demande->getDateDebut(); ?>
+                        </td>
+                        <td>
+                          <?= $demande->getDateFin(); ?>
+                        </td>
+                        <td class="center">
+                          <div class="hidden-sm hidden-xs btn-group">
+                            <button name="Infos" id="valide_b_<?= $demande->getId(); ?>"
+                              class="btn btn-xs btn-success valide_conges" class="pink">
+                              <i class="ace-icon fa fa-check bigger-120"></i>
+                            </button>
+                          </div>
+                        </td>
+                        </tr>
+                        <?php endforeach; ?>
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pull-left">
+              <!--<a href="#demande_modal" data-toggle="modal" class="pink"><button  class="btn btn-sm btn-success"><i class="ace-icon fa fa-plus-circle"></i>Vouvelle demande</button></a>-->
+              <div class="modal fade" id="demande_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header" style="background-color: #438EB9; color:#FFFFFF;">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                          aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Demande de congé</h4>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-sm-3">
+            <div class="widget-box transparent">
+
+
+              <div class="widget-body">
+
+              </div>
+            </div>
+
+            <!-- PAGE CONTENT ENDS -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.page-content -->
+    </div>
+  </div><!-- /.main-content -->
+
+  <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+  </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+<script src="<?=asset('assets\ace-style\assets/js/jquery-2.1.4.min.js');?>"></script>
+<script>
+  if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<script src="<?=asset('assets/js/bootstrap.min.js');?>"></script>
+<!-- page specific plugin scripts -->
+<script src="<?=asset('assets/js/jquery.dataTables.min.js');?>"></script>
+<script src="<?=asset('assets/js/jquery.dataTables.bootstrap.min.js');?>"></script>
+<script src="<?=asset('assets/js/dataTables.buttons.min.js');?>"></script>
+<script src="<?=asset('assets/js/buttons.flash.min.js');?>"></script>
+<script src="<?=asset('assets/js/buttons.html5.min.js');?>"></script>
+<script src="<?=asset('assets/js/buttons.print.min.js');?>"></script>
+<script src="<?=asset('assets/js/buttons.colVis.min.js');?>"></script>
+<script src="<?=asset('assets/js/dataTables.select.min.js');?>"></script>
+<!-- ace scripts -->
+<script src="<?=asset('assets/js/ace-elements.min.js');?>"></script>
+<script src="<?=asset('assets/js/ace.min.js');?>"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+<!-- inline scripts related to this page -->
+<script src="<?=asset('assets/js/wizard.min.js');?>"></script>
+<script src="<?=asset('assets/js/jquery.validate.min.js');?>"></script>
+<script src="<?=asset('assets/js/jquery-additional-methods.min.js');?>"></script>
+<script src="<?=asset('assets/js/bootbox.js');?>"></script>
+<script src="<?=asset('assets/js/jquery.maskedinput.min.js');?>"></script>
+<script src="<?=asset('assets/js/select2.min.js');?>"></script>
+
+<script>
+  // jQuery - Ajax
+
+  $(document).ready(function () {
+    $(document).on("click", ".valide_conges", function () {
+
+      let id_conges = ($(this).attr('id')).replace("valide_b_", "");
+
+      $.confirm({
+        title: '',
+        useBootstrap: false,
+        content: '<div class="jconfirm-box jconfirm-hilight-shake jconfirm-type-blue jconfirm-type-animated" role="dialog" aria-labelledby="jconfirm-box28409" tabindex="-1" style="transition-duration: 0.4s; transition-timing-function: cubic-bezier(0.36, 0.55, 0.19, 1); transition-property: all, margin;"><div class="jconfirm-title-c"><span class="jconfirm-icon-c"><i class="fa fa-smile-o"></i></span><span class="jconfirm-title">Bonjour!!</span></div><div class="jconfirm-content-pane no-scroll" style="transition-duration: 0.4s; transition-timing-function: cubic-bezier(0.36, 0.55, 0.19, 1); height: 21px; max-height: 409px;"><div class="jconfirm-content" id="jconfirm-box28409"><div>Voulez-vous vraiement continuer la validation de cette demande?</div></div></div><div class="jconfirm-clear"></div></div>',
+        buttons: {
+          Oui: function () {
+
+            $.ajax({
+              url: '<?=constructUrl('ValidateConge');?>',
+              type: "POST",
+              dataType: "json",
+              data: { 
+                    demande_conge: id_conges 
+                    },
+
+              success: function () {
+                location.reload();
+              }
+            });
+
+          },
+          Annuler: function () {}
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
