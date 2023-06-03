@@ -177,13 +177,13 @@ return $users;
                 (nom, sexe, email, password, gsm, codeSS, cne, dateIntegration, preavis, dateCreation, id_profil)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)';
 
-            $this->db->prepareAndExecute($sql, [$Nom, $Sexe, $Email, $M_passe, $GSM, $CodeSS, $CNE, $Date_Integration, $Preavis, $Id_Profil]);
+           return $this->db->prepareAndExecute($sql, [$Nom, $Sexe, $Email, $M_passe, $GSM, $CodeSS, $CNE, $Date_Integration, $Preavis, $Id_Profil]);
         }else{
             $sql = 'INSERT INTO users
             (nom, sexe, email, password, gsm, codeSS, cne, dateIntegration, preavis, dateDepart, dateCreation, id_profil)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)';
 
-            $this->db->prepareAndExecute($sql, [$Nom, $Sexe, $Email, $M_passe, $GSM, $CodeSS, $CNE, $Date_Integration, $Preavis, $Date_Depart, $Id_Profil]);
+          return  $this->db->prepareAndExecute($sql, [$Nom, $Sexe, $Email, $M_passe, $GSM, $CodeSS, $CNE, $Date_Integration, $Preavis, $Date_Depart, $Id_Profil]);
         } 
     }
 

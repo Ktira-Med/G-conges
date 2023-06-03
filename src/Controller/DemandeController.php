@@ -22,7 +22,7 @@ class DemandeController {
             include '../templates/menu_Administration.phtml';
             include '../templates/liste_des_demandes.phtml';
         }
-    elseif($_SESSION['role'] == 'employe')
+    elseif($_SESSION['role'] == 'Employe')
     {
         // Display: Template inclusion
         include '../templates/header.phtml';
@@ -51,7 +51,7 @@ class DemandeController {
             'non'
         );
         
-       echo json_encode('<p>Les informations d\'employe ont bien été ajoutées.</p>');
+       echo json_encode(true);
     }
 
     public function GetDemandeById()
@@ -72,14 +72,14 @@ class DemandeController {
 
             $DemandeModel = new DemandeModel();
             $result= $DemandeModel->updateDemande(
-                $_POST['id_connecte'], 
+                $_POST['id_demande'], 
                 $_POST['debutmod'], 
                 $_POST['finmod'], 
                 $_POST['typeconge'], 
                 $_POST['commentaire'], 
             );
 
-            echo json_encode('<p>Les informations d\'employe ont bien été modifiées.</p>');
+            echo json_encode(true);
         }
 
     public function DeleteDemande()
@@ -116,75 +116,4 @@ class DemandeController {
         echo json_encode('<p>Congé validé.</p>');
 
     }
-    
-    // public function CalendarConge()
-    // {
-    //     $DemandeModel = new DemandeModel();
-    //     $demandes = $DemandeModel->getDemandeById($_SESSION['id_user'],$_SESSION['role']);
-    //     $_SESSION["demandes"]=$demandes;
-    //     $events = array();
-    // foreach ($_SESSION["demandes"] as $cal) {
-    // $date1= new \DateTime($cal->getDateDebut());
-    // $date2= new \DateTime($cal->getDateFin());
-    // $diff = $date1->diff($date2);
-    //     if($cal->getValide()=='oui')
-    //     {
-    //         $event = array(
-    //         "title" => str_replace("'"," ",$cal->getLabelType()),
-    //         "debut"=>$cal->getDateDebut(),
-	// 	  	"fin"=>$cal->getDateFin(),
-    //         "id"=>$cal->getId(),
-    //         "start" => $cal->getDateDebut(),
-    //         "end" => $cal->getDateFin(),
-    //         "commentaire"=>$cal->getComment(),
-    //         "allDay" => true,
-    //         "className" => "label-success"
-    //     );
-    //     array_push($events, $event); 
-    //     }
-    //     else
-    //     {
-    //         $event = array(
-                
-    //             "title" => str_replace("'"," ",$cal->getLabelType()),
-    //             "debut"=>$cal->getDateDebut(),
-    //             "fin"=>$cal->getDateFin(),
-    //             "id"=>$cal->getId(),
-    //             "start" => $cal->getDateDebut(),
-    //             "end" => $cal->getDateFin(),
-    //             "commentaire"=>$cal->getComment(),
-    //             "allDay" => true,
-    //                 "className" => "label-danger"
-    //             );
-            
-    //         array_push($events, $event);  
-    //     }
-       
-    // }
-    //     //var_dump($_SESSION["demandes"]);
-    //     //exit;
-    //     if($_SESSION['role'] == 'Administrateur')
-    //     {
-    //         // Display: Template inclusion
-    //         include '../templates/header.phtml';
-    //         include '../templates/menu_Administration.phtml';
-    //         include '../templates/visualisation_conge.phtml';
-    //     }
-    // elseif($_SESSION['role'] == 'employe')
-    // {
-    //     // Display: Template inclusion
-    //     include '../templates/header.phtml';
-    //     include '../templates/menu_employe.phtml';
-    //     include '../templates/visualisation_conge.phtml';
-
-    //     }
-    //     else
-    //     {
-    //         // Display: Template inclusion
-    //     include '../templates/header.phtml';
-    //     include '../templates/menu_ChefProjet.phtml';
-    //     include '../templates/visualisation_conge.phtml';
-
-    //     }
-    // }
 }

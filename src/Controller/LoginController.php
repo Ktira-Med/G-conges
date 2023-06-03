@@ -58,7 +58,7 @@ class LoginController {
                 include '../templates/header.phtml';
                 include '../templates/menu_Administration.phtml';
                 include '../templates/Liste_Employes.phtml';
-            }elseif($_SESSION['role'] == 'employe')
+            }elseif($_SESSION['role'] == 'Employe')
             {
                 $DemandeModel = new DemandeModel();
                 $demandes = $DemandeModel->getDemandeByProfil($_SESSION['id_user'],$_SESSION['role']);
@@ -253,7 +253,7 @@ class LoginController {
                 $_POST['profil']
             );
 
-            echo json_encode('<p>Les informations d\'employe ont bien été modifiées.</p>');
+            echo json_encode(true);
         }
 
         public function DeleteEmploye()
@@ -282,8 +282,7 @@ class LoginController {
                 $_POST['dateDepart'],
                 $_POST['profil']
             );
-            
-            echo json_encode('<p>Les informations d\'employe ont bien été ajoutées.</p>');
+            echo json_encode(true);
         }
 
         public function UpdateSettings()

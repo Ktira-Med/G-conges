@@ -14,7 +14,7 @@ class DemandeModel extends AbstractModel {
     {
         $results="";
         $demandes = [];
-        if($profil=="Utilisateur"||$profil=="Chef de projet")
+        if($profil=="Employe"||$profil=="Chef de projet")
         {
             $sql = 'SELECT demande_conge.*, 
                             type_conge.label_type
@@ -44,13 +44,10 @@ class DemandeModel extends AbstractModel {
             }
         }
       
-            
-    
-            
-
             return $demandes;
     }
 
+    
     function getTypeConge()
     {
         $sql = 'SELECT*
@@ -66,6 +63,7 @@ class DemandeModel extends AbstractModel {
         return $types;
     }
 
+    // Function add vacation
     function AddDemande(int $User_Id, string $Date_Debut, string $Date_Fin, int $Type_Id, string $Comment, string $Valide)
 
     {
@@ -113,13 +111,13 @@ class DemandeModel extends AbstractModel {
             return $demandes;
     }
 
-    function updateDemande(int $User_Id, string $Date_Debut, string $Date_Fin, int $Type_Id, string $Comment)
+    function updateDemande(int $Demande_id, string $Date_Debut, string $Date_Fin, int $Type_Id, string $Comment)
     {
         $sql = 'UPDATE demande_conge 
                     SET dateDebut=?, dateFin=?, type_id=?, comment=?
                     WHERE id = ? ';
 
-        $this->db->prepareAndExecute($sql, [$Date_Debut, $Date_Fin, $Type_Id, $Comment, $User_Id]);
+        $this->db->prepareAndExecute($sql, [$Date_Debut, $Date_Fin, $Type_Id, $Comment, $Demande_id]);
     }
 
     function deleteDemande(int $Demande_id)
